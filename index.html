@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lettuce Entertain You Code Challenge</title>
+    <style type='text/css'>
+        .chartBox {
+            width: 1000px;
+        }
+        .noHits_table {
+            height: 250px;
+            overflow: scroll;
+        }
+        table, th, td{
+            border: 1px solid black;
+        }
+
+        th {
+            background-color: green;
+        }
+    </style>
+</head>
+<body id='body'>
+    <div class='chartBox'>
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <input type="file" id='uploadfile' accept='.csv'>
+    <button id='uploadconfirm'>Upload File</button>
+
+    <hr>
+    <div class="noHits_table">
+        <table>
+
+        </table>
+    </div>
+
+    <!-- <button onclick="updateChart('searchID')">Search ID</button>
+    <button onclick="updateChart('searchQueries')">Search Queries</button>
+    <button onclick="updateChart('searchHits')">Search Hits</button>
+    <button onclick="updateChart('searchTime')">Search Time</button>
+    <button onclick="updateChart('userID')">User ID</button> -->
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // const searchID = []
+        // const searchQueries = []
+        // const searchHits = []
+        // const searchTime = []
+        // const userID = []
+        const uploadconfirm = document.getElementById('uploadconfirm').addEventListener('click', () => {
+            Papa.parse(document.getElementById('uploadfile').files[0], 
+            {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results){
+                    // console.log(results.data)
+                    // for(i=0; i<results.data.length; i++){
+                    //     searchID.push(results.data[i].id)
+                    //     searchQueries.push(results.data[i].query)
+                    //     searchHits.push(results.data[i].hits)
+                    //     searchTime.push(results.data[i].time)
+                    //     userID.push(results.data[i].user_id)
+                    // }
+                    const allData = results.data
+                    const noHits = allData.filter(blue => blue.hits === '0')
+
+                    noHits.forEach(i => {delete i.id; delete i.time; delete i.user_id; delete i.ip})
+
+                    const zeroHits = {}
+
+                    for (let row of noHits){
+                        if (!zeroHits[row.query]){
+                            zeroHits[row.query] = 1
+                        } else {
+                            zeroHits[row.query] ++
+                        }
+                    }
+
+                    const newObj = Object.entries(zeroHits).map(([key, value]) => ({key, value}))
+
+                    let table = document.querySelector('table')
+                    let headerRow = document.createElement('tr')
+                    let data = Object.keys(newObj[0])
+                    let headers = ['Search Query', 'Search Quanity']
+
+                    function generateTable(table, data){
+                        headers.forEach(headerText => {
+                            let header = document.createElement('th')
+                            let textNode = document.createTextNode(headerText)
+                            header.appendChild(textNode)
+                            headerRow.appendChild(header)
+                        })
+
+                        table.appendChild(headerRow)
+                        for(let element of data) {
+                            let row = table.insertRow()
+                            for(key in element){
+                                let cell = row.insertCell()
+                                let text = document.createTextNode(element[key])
+                                cell.appendChild(text)
+                            }
+                        }
+                    }
+                    generateTable(table, newObj)
+                }
+            })
+        })
+
+
+        // // Setup Block
+        // const data = {
+        //     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        //         datasets: [{
+        //             label: '# of Votes',
+        //             data: [12, 19, 3, 5, 2, 3],
+        //             backgroundColor: [
+        //                 'rgba(255, 99, 132, 0.2)',
+        //                 'rgba(54, 162, 235, 0.2)',
+        //                 'rgba(255, 206, 86, 0.2)',
+        //                 'rgba(75, 192, 192, 0.2)',
+        //                 'rgba(153, 102, 255, 0.2)',
+        //                 'rgba(255, 159, 64, 0.2)'
+        //             ],
+        //             borderColor: [
+        //                 'rgba(255, 99, 132, 1)',
+        //                 'rgba(54, 162, 235, 1)',
+        //                 'rgba(255, 206, 86, 1)',
+        //                 'rgba(75, 192, 192, 1)',
+        //                 'rgba(153, 102, 255, 1)',
+        //                 'rgba(255, 159, 64, 1)'
+        //             ],
+        //             borderWidth: 1
+        //         }]
+        // }
+
+        // // Config Block
+
+        // const config = {
+        //     type: 'bar',
+        //     data,
+        //     options: {
+        //         scales: {
+        //             y: {
+        //                 beginAtZero: true
+        //             }
+        //         }
+        //     }
+        // }
+        // // Init Render Block
+
+        // const myChart = new Chart(
+        //     document.getElementById('myChart'),
+        //     config
+        // )
+
+        // function updateChart(label){
+        //     myChart.data.datasets[0].label = label
+        //     if (label === 'searchID') {
+        //         myChart.data.datasets[0].data = searchID
+        //     }
+        //     if (label === 'searchQueries') {
+        //         myChart.data.datasets[0].data = searchQueries
+        //     }
+        //     if (label === 'searchHits') {
+        //         myChart.data.datasets[0].data = searchHits
+        //     }
+        //     if (label === 'searchTime') {
+        //         myChart.data.datasets[0].data = searchTime
+        //     }
+        //     if (label === 'userID') {
+        //         myChart.data.datasets[0].data = userID
+        //     }
+        //     myChart.update()
+        // }
+
+    </script>
+</body>
+</html>
