@@ -8,6 +8,8 @@
 .noHits_table {
     height: 250px;
     overflow: scroll;
+    display: flex;
+    justify-content: center;
 }
 
 table {
@@ -20,4 +22,8 @@ table, th, td{
 
 th {
     background-color: green;
+}
+
+h3 {
+    text-align: center;
 }

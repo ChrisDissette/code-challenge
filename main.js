@@ -8,6 +8,18 @@
             const testLabel = []
             const testData = []
 
+            document.addEventListener('DOMContentLoaded', () => {
+                document
+                    .getElementById('barChartPopularity')
+                    .addEventListener('input', handleSelect)
+            })
+
+            function handleSelect(event) {
+                let popularity = event.target
+                console.log(typeof popularity.value)
+            }
+
+
             // Parse CSV - Convert to JSON Object
 
             const uploadconfirm = document.getElementById('uploadconfirm').addEventListener('click', () => {
@@ -40,7 +52,7 @@
                         // Add Key/Value to duplicate search query object
                         const newMerge = Object.entries(mergeHits).map(([key, value]) => ({key, value}))
 
-                        const noSingle = newMerge.filter(single => single.value > 4)
+                        const noSingle = newMerge.filter(single => single.value > 20)
 
                         // Create unique arrays of object values
                         for(i=0; i<newMerge.length; i++){
@@ -52,9 +64,6 @@
                             testLabel.push(noSingle[i].key)
                             testData.push(noSingle[i].value)
                         }
-                        
-
-                        console.log(noSingle)
                         
                         // Remove uneccesary information from object
                         noHits.forEach(i => {delete i.id; delete i.time; delete i.user_id; delete i.ip})
@@ -175,7 +184,7 @@
 
                         // Pie Chart Config Block
                         const configPie = {
-                            type: 'pie',
+                            type: 'doughnut',
                             data: dataPie,
                             options: {}
                         }
