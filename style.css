@@ -1,0 +1,14 @@
+.barChartBox {
+    width: 2000px;
+}
+.noHits_table {
+    height: 250px;
+    overflow: scroll;
+}
+table, th, td{
+    border: 1px solid black;
+}
+
+th {
+    background-color: green;
+}
