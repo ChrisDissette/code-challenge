@@ -1,10 +1,19 @@
 .barChartBox {
-    width: 2000px;
+    width: 80%;
+}
+
+#pieChart {
+    height: 700px;
 }
 .noHits_table {
     height: 250px;
     overflow: scroll;
 }
+
+table {
+    width: 80%
+}
+
 table, th, td{
     border: 1px solid black;
 }
