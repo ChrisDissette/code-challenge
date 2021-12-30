@@ -5,6 +5,9 @@
             const searchTime = []
             const userID = []
 
+            const testLabel = []
+            const testData = []
+
             // Parse CSV - Convert to JSON Object
 
             const uploadconfirm = document.getElementById('uploadconfirm').addEventListener('click', () => {
@@ -37,12 +40,21 @@
                         // Add Key/Value to duplicate search query object
                         const newMerge = Object.entries(mergeHits).map(([key, value]) => ({key, value}))
 
+                        const noSingle = newMerge.filter(single => single.value > 4)
+
                         // Create unique arrays of object values
                         for(i=0; i<newMerge.length; i++){
                             searchQueries.push(newMerge[i].key)
                             searchHits.push(newMerge[i].value)
                         }
 
+                        for(i=0; i<noSingle.length; i++){
+                            testLabel.push(noSingle[i].key)
+                            testData.push(noSingle[i].value)
+                        }
+                        
+
+                        console.log(noSingle)
                         
                         // Remove uneccesary information from object
                         noHits.forEach(i => {delete i.id; delete i.time; delete i.user_id; delete i.ip})
@@ -90,10 +102,10 @@
 
                         // Bar Chart Setup Block
                         const data = {
-                            labels: searchQueries,
+                            labels: testLabel,
                                 datasets: [{
-                                    label: '# of Votes',
-                                    data: searchHits,
+                                    label: '# of Searches',
+                                    data: testData,
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
                                         'rgba(54, 162, 235, 0.2)',
@@ -136,10 +148,10 @@
                         // Pie Chart Setup Block
 
                         const dataPie = {
-                            labels: searchQueries,
+                            labels: testLabel,
                                 datasets: [{
                                     label: '# of Votes',
-                                    data: searchHits,
+                                    data: testData,
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
                                         'rgba(54, 162, 235, 0.2)',
