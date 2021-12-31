@@ -1,55 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lettuce Entertain You Code Challenge</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script defer src="./main.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lettuce Entertain You Code Challenge</title>
+        <script defer src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script defer src="./main.js"></script>
+        <script defer src="./email.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script type="text/javascript">
+        (function() {
+        emailjs.init("user_zoqItUHbFib8GrZmQADoa");
+        })();
+        </script>
+        <script defer src='./email.js'></script>
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    </head>
     <body id='body'>
+        <div class="container">
+            <header class='header'>
+                <h1>Lettuce Entertain You Search Data Overview</h1>
+                <h4 class='subhead'>Select a file and then upload to view data.</h4>
+                <div class="uploadform">
+                    <input type="file" id='uploadfile' accept='.csv'>
+                    <button id='uploadconfirm'>Upload File</button>
+                </div>
+            </header>
+            <hr>
+            <h3 id='barChartLabel'></h3>
+            <h4 id='barChartLabelSubHead'></h4>
+            <div class="chartContainer">
+                <div class='barChartBox'>
+                    <canvas id="barChart" width="400" height="400"></canvas>
+                </div>
 
-        <input type="file" id='uploadfile' accept='.csv'>
-        <button id='uploadconfirm'>Upload File</button>
-        
-        <div class='barChartBox'>
-            <canvas id="barChart" width="400" height="400"></canvas>
+                <div class='pieChartBox'>
+                    <canvas id="pieChart"></canvas>
+                </div>
+
+
+            </div>
+
+            <div class="dateBox">
+                <h4 id="dateLabel"></h4>
+                <div class='barDateChartBox'>
+                    <canvas id="barDateChart"></canvas>
+                </div>
+            </div>
+
+            <form>
+                <select name="barChartPopularity" id="barChartPopularity">
+                    <option disabled selected value> -- Select Search Popularity -- </option>
+                    <option value="low">Least</option>
+                    <option value="middle">Average</option>
+                    <option value="high" selected>Most</option>
+                </select>
+            </form>
+
+            <hr>
+
+            <h3 id='noHitsTableLabel'></h3>
+
+            <div id="zeroHitsTable" class="noHits_table">
+            </div>
+
+            <!-- <button onclick="updateChart('searchID')">Search ID</button>
+            <button onclick="updateChart('searchQueries')">Search Queries</button>
+            <button onclick="updateChart('searchHits')">Search Hits</button>
+            <button onclick="updateChart('searchTime')">Search Time</button>
+            <button onclick="updateChart('userID')">User ID</button> -->
+            <hr>
+
+            <div class="contactContainer">
+                <address class='contactForm'>
+                    <h4>Contact Dev Team For Special Requests</h4>
+                    <input type="text" id="toName" placeholder="Enter Name">
+                    <input type="text" id='request' placeholder='Enter Request'>
+                    <button onclick='sendMail()'>Send Email</button>
+                </address>
+            </div>
         </div>
-
-        <form>
-
-        <select name="barChartPopularity" id="barChartPopularity">
-            <option disabled selected value> -- Select Search Popularity -- </option>
-            <option value="low">Least</option>
-            <option value="middle">Average</option>
-            <option value="high" selected>Most</option>
-        </select>
-
-        </form>
-
-        <hr>
-
-        <div class='pieChartBox'>
-            <canvas id="pieChart" width="400" height="400"></canvas>
-        </div>
-
-
-
-        <hr>
-        <h3>Searches Resulting in 0 Hits</h3>
-        <div class="noHits_table">
-            <table>
-            </table>
-        </div>
-
-        <!-- <button onclick="updateChart('searchID')">Search ID</button>
-        <button onclick="updateChart('searchQueries')">Search Queries</button>
-        <button onclick="updateChart('searchHits')">Search Hits</button>
-        <button onclick="updateChart('searchTime')">Search Time</button>
-        <button onclick="updateChart('userID')">User ID</button> -->
-
     </body>
 </html>

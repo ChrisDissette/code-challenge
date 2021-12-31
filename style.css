@@ -1,19 +1,133 @@
-.barChartBox {
-    width: 80%;
+.container {
+    min-height: 100vh;
+    margin: 2rem;
+    padding-bottom: 3rem;
 }
 
-#pieChart {
-    height: 700px;
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+.chartContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.barChartBox {
+    width: 40%;
+}
+
+.pieChartBox {
+    width: 40%;
+}
+
+.dateBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.barDateChartBox {
+    width: 70%;
+}
+
+
 .noHits_table {
-    height: 250px;
+    height: 50rem;
     overflow: scroll;
     display: flex;
     justify-content: center;
 }
 
+.contactContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contactForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#barChartPopularity {
+    margin-top: 20px;
+}
+
+.uploadform {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 3rem;
+    width: 25%;
+}
+
+.subhead {
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: 'Spline Sans', sans-serif;
+    font-style: italic;
+}
+
+#barChartLabelSubHead {
+    font-size: 1.5rem;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 3rem;
+}
+
+#dateLabel {
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'Lato', sans-serif;
+}
+
+@media only screen and (max-width: 800px) {
+    .chartContainer {
+        flex-direction: column;
+    }
+    .pieChartBox {
+        width: 90%;
+    }
+    .barChartBox {
+        width: 90%;
+    }
+    .barDateChartBox{
+        width: 95%;
+    }
+    .uploadform {
+        flex-direction: column;
+    }
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'Lato', sans-serif;
+}
+
+
+button {
+    margin-top: 1rem;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+select:hover {
+    cursor: pointer;
+}
+
+
 table {
-    width: 80%
+    width: 80%;
 }
 
 table, th, td{
@@ -21,9 +135,28 @@ table, th, td{
 }
 
 th {
-    background-color: green;
+    background-color: gray;
+    height: 2rem;
+    color: white;
+}
+
+tr:hover {
+    background-color: gray;
+    color: white;
 }
 
 h3 {
     text-align: center;
+    font-size: 3rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+}
+
+h4 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+address input{
+    margin: 0.25rem;
 }
