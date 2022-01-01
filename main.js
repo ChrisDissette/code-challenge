@@ -105,6 +105,7 @@
 
                         let tbl = document.createElement('table')
                         document.getElementById('zeroHitsTable').appendChild(tbl)
+                        tbl.classList.add("table-style");
 
                         let table = document.querySelector('table')
                         let headerRow = document.createElement('tr')
