@@ -8,21 +8,28 @@
             const chartLabels = []
             const chartData = []
 
-            document.addEventListener('DOMContentLoaded', () => {
-                document
-                    .getElementById('barChartPopularity')
-                    .addEventListener('input', handleSelect)
-            })
+            let display = 'none'
+            let altDisplay = 'none'
 
-            function handleSelect(event) {
-                let popularity = event.target
-                console.log(typeof popularity.value)
-            }
+            // document.addEventListener('DOMContentLoaded', () => {
+            //     document
+            //         .getElementById('barChartPopularity')
+            //         .addEventListener('input', handleSelect)
+            // })
+
+            // function handleSelect(event) {
+            //     let popularity = event.target
+            //     console.log(typeof popularity.value)
+            // }
+
+            // Create HTML elements to render upon chart load
+
 
 
             // Parse CSV - Convert to JSON Object
 
             const uploadconfirm = document.getElementById('uploadconfirm').addEventListener('click', () => {
+                display = 'flex'
                 Papa.parse(document.getElementById('uploadfile').files[0], 
                 {
                     download: true,
@@ -99,6 +106,9 @@
 
                         // Create 'no hits' table
 
+                        // Change display property to render table upon data load
+                        document.getElementById('chartContainer').style.display = display
+
                         // Table Label
                         document.getElementById('noHitsTableLabel').innerHTML = "Searches Resulting in 0 Hits"
 
@@ -132,14 +142,34 @@
                             }
                         }
                         generateTable(table, finalZeroHitsObj)
-
-
                         
 
                         // Charts
 
+                        // Change display property to render div upon data load
+                        document.getElementById('chartContainer').style.display = display
+                        document.getElementById('break').style.display = display
+                        document.getElementById('zeroHitsTable').style.display = display
+                        document.getElementById('nextChartContainer').style.display = display
+                        // document.getElementById('uploadForm').style.display = altDisplay
+
+
 
                         // Chart Header Labels
+                        const chartLabel = document.createElement('H3')
+                        chartLabel.setAttribute('id', 'barChartLabel')
+                        const hr = document.getElementById('break')
+                        hr.after(chartLabel)
+
+                        const scroll = document.getElementById('scrollTo')
+                        scroll.scrollIntoView()
+
+                        // const chartContainer = document.createElement('div')
+                        // chartContainer.setAttribute('class', 'chart-container')
+                        // const h4 = document.getElementById(barChartLabelSubHead)
+                        // h4.after(chartContainer)
+
+
                         document.getElementById('barChartLabel').innerHTML = "Search Queries"
                         document.getElementById('barChartLabelSubHead').innerHTML = "View search terms and number of times those keywords were entered. Use drop down menu to sort search terms by popularity."
                         document.getElementById('dateLabel').innerHTML = "Search Queries by Date"

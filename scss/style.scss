@@ -1,19 +1,27 @@
-$breakpoint: 800px;
+$breakpoint: 900px;
+$breakpoint-sm:600px;
+$branded-green: #258834;
+$hover-color: #103d17;
+$main-font: 'Lato', sans-serif;
+$secondary-font: 'Spline Sans', sans-serif;
 
+html {
+    scroll-behavior: smooth;
+}
 
 .container {
-    min-height: 100vh;
-    margin: 2rem;
-    padding-bottom: 3rem;
+    min-height: 85vh;
+    width: 100%;
+    padding: 2rem 0rem 2rem 0rem;
     h1 {
         text-align: center;
         font-size: 3rem;
-        font-family: 'Lato', sans-serif;
+        font-family: $main-font;
     }
     h3 {
         text-align: center;
         font-size: 3rem;
-        font-family: 'Lato', sans-serif;
+        font-family: $main-font;
         font-weight: 800;
     }
     button {
@@ -25,6 +33,12 @@ $breakpoint: 800px;
     select:hover {
         cursor: pointer;
     }
+    #break {
+        display: none;
+    }
+    .line-style{
+        margin-top:3rem;
+    }
 }
 
 .header {
@@ -34,7 +48,7 @@ $breakpoint: 800px;
     .sub-header {
         font-size: 1.5rem;
         text-align: center;
-        font-family: 'Spline Sans', sans-serif;
+        font-family: $secondary-font;
         font-style: italic;
     }
     .upload-form {
@@ -42,11 +56,28 @@ $breakpoint: 800px;
         flex-direction: column;
         justify-content: flex-start;
         width: 50%;
+        button {
+            height: 4rem;
+            background-color: $branded-green;
+            color: white;
+            font-size: 1.5rem;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: $hover-color;
+        }
     }
 }
 
+#barChartLabelSubHead {
+    font-size: 1.5rem;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 3rem;
+}
+
 .chart-container {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-around;
     @media (max-width: $breakpoint) {
@@ -67,14 +98,14 @@ $breakpoint: 800px;
 }
 
 .next-chart-container {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    .barDateChartBox {
+    .barchart-date-container {
         width: 70%;
         @media(max-width: $breakpoint){
-            width: 95%;
+            width: 90%;
         }
     }
 }
@@ -82,21 +113,34 @@ $breakpoint: 800px;
 .no-hits-table {
     height: 50rem;
     overflow: scroll;
-    display: flex;
+    display: none;
     justify-content: center;
+    margin: 0rem 13rem 0rem 13rem;
+    @media (max-width: $breakpoint) {
+        margin: 0rem 3rem 0rem 3rem;
+    }
     .table-style{
         width: 80%;
         table, th, td{
             border: 1px solid black;
+            font-family: $main-font;
+            padding: 0rem 1rem 0rem 1rem;
         }
         th {
-            background-color: gray;
-            height: 2rem;
+            background-color: $branded-green;
+            height: 3rem;
             color: white;
+            font-size: 1.5rem;
+            @media (max-width: $breakpoint) {
+                font-size: 1rem;
+            }
         }
         tr:hover {
-            background-color: gray;
+            background-color: $hover-color;
             color: white;
+        }
+        td {
+            height: 2rem;
         }
     }
 }
@@ -112,26 +156,52 @@ $breakpoint: 800px;
         justify-content: center;
     }
     input{
-        margin: 0.25rem;
+        margin: 0.5rem;
+        height: 3rem;
+        width: 50rem;
+        font-size: 1.5rem;
+        font-family: $main-font;
+        padding: 1rem;
+        @media (max-width: $breakpoint) {
+            width: 20rem;
+        }
+    }
+    textarea {
+        height: 6rem;
+        width: 50rem;
+        font-size: 1.5rem;
+        font-family: $main-font;
+        padding: 1rem;
+        @media (max-width: $breakpoint) {
+            width: 20rem;
+        }
     }
     h4 {
         font-size: 2rem;
         text-align: center;
         font-style: normal;
     }
+    button {
+        background-color: $branded-green;
+        color: white;
+        height: 4rem;
+        width: 52rem;
+        font-size: 1.5rem;
+        border-radius: 5px;
+        @media (max-width: $breakpoint) {
+            width: 22rem;
+        }
+    }
+    button:hover {
+        background-color: $hover-color;
+    }
 }
 
-.chart-label-sub {
-    font-size: 1.5rem;
-    text-align: center;
-    font-style: italic;
-    margin-bottom: 3rem;
-}
 
 #dateLabel {
     text-align: center;
     font-size: 3rem;
-    font-family: 'Lato', sans-serif;
+    font-family: $main-font;
 }
 
 

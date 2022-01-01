@@ -27,27 +27,30 @@
             <header class='header'>
                 <h1>Lettuce Entertain You Search Data Overview</h1>
                 <h4 class='sub-header'>Select a file and then upload to view data.</h4>
-                <div class="upload-form">
+                <div class="upload-form" id='uploadForm'>
                     <input type="file" id='uploadfile' accept='.csv'>
                     <button id='uploadconfirm'>Upload File</button>
                 </div>
             </header>
-            <hr>
+
+            <hr class='line-style' id='scrollTo'>
+
             <h3 id='barChartLabel'></h3>
-            <h4 id='barChartLabelSubHead' class='chart-label-sub'></h4>
-            <div class="chart-container">
+            <h4 id='barChartLabelSubHead'></h4>
+            
+            <div class="chart-container" id='chartContainer'>
                 <div class='bar-chart-container'>
                     <canvas id="barChart" width="400" height="400"></canvas>
                 </div>
 
-                <div class='doughnut-chart-container'>
+                <div class='doughnut-chart-container' id='doughnutChartContainer'>
                     <canvas id="pieChart"></canvas>
                 </div>
             </div>
 
-            <div class="next-chart-container">
+            <div class="next-chart-container" id='nextChartContainer'>
                 <h4 id="dateLabel"></h4>
-                <div class='barDateChartBox'>
+                <div class='barchart-date-container'>
                     <canvas id="barDateChart"></canvas>
                 </div>
             </div>
@@ -61,7 +64,7 @@
                 </select>
             </form> -->
 
-            <hr>
+            <hr id='break'>
 
             <h3 id='noHitsTableLabel'></h3>
 
@@ -73,15 +76,17 @@
             <button onclick="updateChart('searchHits')">Search Hits</button>
             <button onclick="updateChart('searchTime')">Search Time</button>
             <button onclick="updateChart('userID')">User ID</button> -->
-            <hr>
+            <hr id='break'>
 
             <div class="contact-container">
-                <address class='contactForm'>
-                    <h4>Contact Dev Team For Special Requests</h4>
-                    <input type="text" id="toName" placeholder="Enter Name">
-                    <input type="text" id='request' placeholder='Enter Request'>
-                    <button onclick='sendMail()'>Send Email</button>
-                </address>
+                <form id='contactID'>
+                    <address class='contactForm'>
+                        <h4>Special Request Form</h4>
+                        <input type="text" id="toName" placeholder="Enter Name">
+                        <textarea id='request' placeholder='Enter Request'></textarea>
+                        <button onclick='sendMail()'>Send Email</button>
+                    </address>
+                </form>
             </div>
         </div>
     </body>
