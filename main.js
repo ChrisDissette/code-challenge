@@ -1,5 +1,3 @@
-
-
             const chartLabels = []
             const chartData = []
 
@@ -9,26 +7,12 @@
             const averageChartLabels = []
             const averageChartData = []
 
-            const bubbleData = []
-            const bubbleLabel = []
-            const bubbleSize = []
+            const barData = []
+            const lineBarLabel = []
+            const lineData = []
 
             let display = 'none'
             let altDisplay = 'none'
-
-
-            // document.addEventListener('DOMContentLoaded', () => {
-            //     document
-            //         .getElementById('barChartPopularity')
-            //         .addEventListener('input', handleSelect)
-            // })
-
-            // function handleSelect(event) {
-            //     let popularity = event.target
-            //     console.log(typeof popularity.value)
-            // }
-
-            // Create HTML elements to render upon chart load
 
 
 
@@ -45,7 +29,6 @@
 
                         let allData = results.data
                         
-
                         // 0 Search Hits Data Filtering
 
                         // Filter allData object to only include search queries with 0 hits
@@ -120,15 +103,34 @@
                             }
                         }
 
-                        const finalSearchTally = Object.entries(holder).map(value => value[1])
+                        let finalSearchTally = Object.entries(holder).map(value => value[1])
+
+                        console.log(finalSearchTally)
+
+                        const popHits = finalSearchTally.filter(popular => popular.entries > 50)
+
+
+                        const blue = popHits.filter(falseInfo => !falseInfo.query.includes('thinkapp'))
 
 
 
-                        for(let row of finalSearchTally){
-                            bubbleData.push(row.entries)
-                            bubbleLabel.push(row.query)
-                            bubbleSize.push(row.hits)
+                        for(let row of blue){
+                            barData.push(row.entries)
+                            lineBarLabel.push(row.query)
+                            lineData.push(row.hits)
                         }
+
+
+
+                        // for(let i=0; i<finalSearchTally.length;i++){
+                        //     finalSearchTally[i].x = finalSearchTally[i]['query']
+                        //     delete finalSearchTally[i].query
+                        //     finalSearchTally[i].y = finalSearchTally[i]['entries']
+                        //     delete finalSearchTally[i].entries
+                        //     finalSearchTally[i].r = finalSearchTally[i]['hits']
+                        //     delete finalSearchTally[i].hits
+                        // }
+                        
 
 
                         // Consolidate search queries, and count search quanity
@@ -137,8 +139,7 @@
                         for (let row of hits) {
                             if(!mergeHits[row.query]){
                                 mergeHits[row.query] = 1
-                                
-                                // mergeHits[row.hits] = mergeHits[row.hits]
+
                             } else {
                                 mergeHits[row.query] ++
                             }
@@ -240,7 +241,7 @@
 
                         document.getElementById('barChartLabel').innerHTML = "Search Queries"
                         document.getElementById('barChartLabelSubHead').innerHTML = "View search terms and number of times those keywords were entered. Use drop down menu to sort search terms by popularity."
-                        document.getElementById('dateLabel').innerHTML = "Search Queries by Date"
+                        document.getElementById('dateLabel').innerHTML = "Search Queries and Search Hits"
 
 
                         // Bar Chart Setup Block
@@ -337,56 +338,36 @@
                             configPie
                         )
 
-                        
-                        // Bar Date Chart Date Setup Block
-                        const barDateChartdata = {
-                            labels: chartLabels,
-                                datasets: [{
-                                    label: '# of Searches',
-                                    data: chartData,
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1,
-                                }]
-                        }
+                        console.log(barData)
 
-                        // Bar Date Chart Config Block
-                        const configBarDateChart = {
+                        const hitsData = {
+                            labels: lineBarLabel,
+                            datasets: [{
                             type: 'bar',
-                            data: barDateChartdata,
-                            responsive: true,
-                            maintainAspectRation: false,
+                            label: 'Bar Dataset',
+                            data: lineData,
+                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                            }]
+                        };
+
+                        const mixedConfig = {
+                            type: 'scatter',
+                            data: hitsData,
                             options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
+                            scales: {
+                                y: {
+                                    beginAtZero: true
                                 }
                             }
-                        }
+                            }
+                        };
 
                         // Bar Chart Render Block
-                        const barDateChart = new Chart(
+                        const mixedChart = new Chart(
                             document.getElementById('barDateChart'),
-                            configBarDateChart
+                            mixedConfig
                         )
-
-
-
                         
                     }
                 })
