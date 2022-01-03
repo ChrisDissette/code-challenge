@@ -5,6 +5,14 @@ $hover-color: #103d17;
 $main-font: 'Lato', sans-serif;
 $secondary-font: 'Spline Sans', sans-serif;
 
+* {
+	vertical-align: baseline;
+	font-size: 100%;
+	outline: 0;
+	padding: 0;
+	margin: 0;
+	}
+
 html {
     scroll-behavior: smooth;
 }
@@ -13,22 +21,31 @@ html {
     min-height: 85vh;
     width: 100%;
     padding: 2rem 0rem 2rem 0rem;
+    margin-top: 3rem;
+    @media (max-width: $breakpoint) {
+        padding: 0rem 0.5rem 2rem 0.5rem;
+    }
     h1 {
         text-align: center;
         font-size: 3rem;
         font-family: $main-font;
+        margin-bottom: 1rem;
+    }
+    h2 {
+        margin-bottom: 3rem;
     }
     h3 {
         text-align: center;
         font-size: 3rem;
         font-family: $main-font;
         font-weight: 800;
+        margin: 3rem 0rem 1.5rem 0rem;
     }
     h4 {
         font-size: 1.5rem;
         text-align: center;
         font-style: italic;
-        margin-bottom: 3rem;
+        margin-bottom: 4rem;
     }
     button {
         margin-top: 1rem;
@@ -104,39 +121,34 @@ html {
 
 .avg-chart-container {
     display: none;
+    justify-content: space-around;
+    .avg-bar-chart-container {
+        width: 60%;
+        @media (max-width: $breakpoint) {
+            width: 95%;
+        }
+    }
+}
+
+.least-pop-parent {
+    @media (max-width: $breakpoint-sm) {
+        display: none !important;
+    }
+}
+
+.least-pop-chart-container {
+    display: none;
     align-items: center;
     justify-content: space-around;
     margin: 5rem 0rem 5rem 0rem;
-    @media (max-width: $breakpoint) {
-        flex-direction: column;
-    }
-    .avg-bar-chart-container {
-        width: 50%;
+    .least-pop-bar-chart-container {
+        width: 60%;
         @media (max-width: $breakpoint) {
             width: 90%;
         }
     }
 }
 
-.least-pop-chart-container {
-    display: none;
-    justify-content:center;
-    align-items: center;
-}
-
-
-.next-chart-container {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    .barchart-date-container {
-        width: 70%;
-        @media(max-width: $breakpoint){
-            width: 90%;
-        }
-    }
-}
 
 .no-hits-table {
     height: 50rem;
@@ -177,6 +189,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 3rem;
     .contactForm {
         display: flex;
         flex-direction: column;
@@ -208,6 +221,7 @@ html {
         font-size: 2rem;
         text-align: center;
         font-style: normal;
+        margin-bottom: 1.5rem;
     }
     button {
         background-color: $branded-green;
@@ -225,12 +239,6 @@ html {
     }
 }
 
-
-#dateLabel {
-    text-align: center;
-    font-size: 3rem;
-    font-family: $main-font;
-}
 
 
 

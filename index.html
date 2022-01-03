@@ -25,7 +25,7 @@
     <body id='body'>
         <div class="container">
             <header class='header'>
-                <h1>Lettuce Entertain You Search Data Overview</h1>
+                <h1>Website Search Data</h1>
                 <h2 class='sub-header'>Select a file and then upload to view data.</h2>
                 <div class="upload-form" id='uploadForm'>
                     <input name='fileupload' type="file" id='uploadfile' accept='.csv' aria-label='uploadfile'>
@@ -40,7 +40,7 @@
 
 
             <!-- Most popular search chart container -->
-            <div class="chart-container" id='chartContainer'>
+            <div class="chart-container" id='chartContainer' tabindex=0>
                 <div class='bar-chart-container'>
                     <canvas id="barChart" width="400" height="400"></canvas>
                 </div>
@@ -53,31 +53,36 @@
 
             <!-- Average popularity search chart container -->
 
-            <h3 id='avgBarChartLabel'></h3>
-            <h4 id='avgBarChartLabelSubHead'></h4>
+            <main>
+                <h3 id='avgBarChartLabel' aria-hidden="false" tabindex=0></h3>
+                <h4 id='avgBarChartLabelSubHead' aria-hidden="false"></h4>
 
-            <div class="avg-chart-container" id='avgChartContainer'>
-                <div class='avg-bar-chart-container'>
-                    <canvas id="avgBarChart" width="400" height="400"></canvas>
+                <div class="avg-chart-container" id='avgChartContainer' tabindex=0>
+                    <div class='avg-bar-chart-container' aria-hidden="false">
+                        <canvas id="avgBarChart" width="400" height="300" alt='Bar chart of average popularity search queries.'></canvas>
+                    </div>
+
                 </div>
 
+                <!-- Least Popular Searches horizontal chart -->
+
+                <div class="least-pop-parent">
+
+                    <h3 id='leastPopChartLabel' tabindex=0></h3>
+                    <h4 id='leastPopBarChartLabelSubHead' class='least-pop-bar-chart'></h4>
+
+                    <div class="least-pop-chart-container" id='leastPopChartContainer' tabindex=0>
+                        <div class='least-pop-bar-chart-container'>
+                            <canvas id="leastPopBarChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
             </div>
-
-            <!-- Least Popular Searches horizontal chart -->
-
-            <h3 id='leastPopChartLabel'></h3>
-            <h4 id='leastPopBarChartLabelSubHead'></h4>
-
-            <div class="least-pop-chart-container" id='leastPopChartContainer'>
-                <div class='least-pop-bar-chart-container'>
-                    <canvas id="leastPopBarChart" width="1000" height="3000"></canvas>
-                </div>
-            </div>
+            </main>
 
             <hr id='break'>
 
-            <h3 id='noHitsTableLabel'></h3>
-            <div id="zeroHitsTable" class="no-hits-table">
+            <h3 id='noHitsTableLabel' tabindex=0 ></h3>
+            <div id="zeroHitsTable" class="no-hits-table" aria-hidden="true" >
             </div>
 
             <hr id='break'>

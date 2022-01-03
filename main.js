@@ -97,8 +97,8 @@
 
                         // Create 3 new filtered objects based on search query quantity from finalSearchTally object - Least popular obj, Average obj, Most popular obj
                         const popHits = finalSearchTally.filter(popular => popular.entries >= 20)
-                        const avgHits = finalSearchTally.filter(avg => avg.entries >= 10 && avg.entries < 20)
-                        const leastHits = finalSearchTally.filter(least => least.entries < 10 && least.entries > 2)
+                        const avgHits = finalSearchTally.filter(avg => avg.entries >= 8 && avg.entries < 20)
+                        const leastHits = finalSearchTally.filter(least => least.entries < 8 && least.entries > 2)
                         const oneOff = finalSearchTally.filter(least => least.entries <=2 )
 
                         // Remove any invalid search terms (ex: thinkapp/index)
@@ -183,13 +183,13 @@
 
 
                         document.getElementById('barChartLabel').innerHTML = "Most Popular Search Queries"
-                        document.getElementById('barChartLabelSubHead').innerHTML = "View most popular search terms and number of times those keywords were entered. Any keyword searched greater than (or equal to) 20 times is considered popular."
+                        document.getElementById('barChartLabelSubHead').innerHTML = "View most popular search terms and number of times those keywords were entered. Any keyword searched 20 times or more is considered popular."
 
                         document.getElementById('avgBarChartLabel').innerHTML = "Average Popularity Search Queries"
                         document.getElementById('avgBarChartLabelSubHead').innerHTML = "View average popularity search terms and number of times those keywords were entered. Any keyword searched between 10 and 20 times is considered average."
 
                         document.getElementById('leastPopChartLabel').innerHTML = "Least Popular Search Queries"
-                        document.getElementById('leastPopBarChartLabelSubHead').innerHTML = "View least popular search terms and number of times those keywords were entered. Any keyword searched between 2 and 15 times is considered least popular."
+                        document.getElementById('leastPopBarChartLabelSubHead').innerHTML = "View least popular search terms and number of times those keywords were entered. Any keyword searched between 3 and 10 times is considered least popular. Keywords searched fewer than 3 times are available upon request."
 
 
                         // All bar chart setup
@@ -345,7 +345,6 @@
                             responsive: true,
                             maintainAspectRation: false,
                             options: {
-                                indexAxis: 'y',
                                 scales: {
                                     y: {
                                         beginAtZero: true
@@ -424,7 +423,7 @@
 
                         let tbl = document.createElement('table')
                         document.getElementById('zeroHitsTable').appendChild(tbl)
-                        tbl.classList.add("table-style");
+                        tbl.classList.add("table-style")
 
                         let table = document.querySelector('table')
                         let headerRow = document.createElement('tr')
