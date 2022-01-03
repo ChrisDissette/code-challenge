@@ -111,23 +111,17 @@ html {
         flex-direction: column;
     }
     .avg-bar-chart-container {
-        width: 40%;
+        width: 50%;
         @media (max-width: $breakpoint) {
             width: 90%;
         }
     }
-    .avg-doughnut-chart-container {
-        width: 40%;
-        @media (max-width: $breakpoint) {
-            width: 95%;
-            margin-top: 3rem;
-        }
-        }
 }
 
 .least-pop-chart-container {
     display: none;
     justify-content:center;
+    align-items: center;
 }
 
 

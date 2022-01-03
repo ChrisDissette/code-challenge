@@ -96,8 +96,8 @@
                         let finalSearchTally = Object.entries(holder).map(value => value[1])
 
                         // Create 3 new filtered objects based on search query quantity from finalSearchTally object - Least popular obj, Average obj, Most popular obj
-                        const popHits = finalSearchTally.filter(popular => popular.entries > 25)
-                        const avgHits = finalSearchTally.filter(avg => avg.entries >= 10 && avg.entries <= 25)
+                        const popHits = finalSearchTally.filter(popular => popular.entries >= 20)
+                        const avgHits = finalSearchTally.filter(avg => avg.entries >= 10 && avg.entries < 20)
                         const leastHits = finalSearchTally.filter(least => least.entries < 10 && least.entries > 2)
                         const oneOff = finalSearchTally.filter(least => least.entries <=2 )
 
@@ -183,13 +183,13 @@
 
 
                         document.getElementById('barChartLabel').innerHTML = "Most Popular Search Queries"
-                        document.getElementById('barChartLabelSubHead').innerHTML = "View most popular search terms and number of times those keywords were entered. Any keyword searched greater than 25 times is considered popular."
+                        document.getElementById('barChartLabelSubHead').innerHTML = "View most popular search terms and number of times those keywords were entered. Any keyword searched greater than (or equal to) 20 times is considered popular."
 
                         document.getElementById('avgBarChartLabel').innerHTML = "Average Popularity Search Queries"
-                        document.getElementById('avgBarChartLabelSubHead').innerHTML = "View average popularity search terms and number of times those keywords were entered. Any keyword searched between 15 and 25 times is considered average."
+                        document.getElementById('avgBarChartLabelSubHead').innerHTML = "View average popularity search terms and number of times those keywords were entered. Any keyword searched between 10 and 20 times is considered average."
 
                         document.getElementById('leastPopChartLabel').innerHTML = "Least Popular Search Queries"
-                        document.getElementById('leastPopBarChartLabelSubHead').innerHTML = "View least popular search terms and number of times those keywords were entered. Any keyword searched less than 15 times is considered least popular."
+                        document.getElementById('leastPopBarChartLabelSubHead').innerHTML = "View least popular search terms and number of times those keywords were entered. Any keyword searched between 2 and 15 times is considered least popular."
 
 
                         // All bar chart setup
@@ -198,7 +198,7 @@
                         const data = {
                             labels: mostPopQueries,
                                 datasets: [{
-                                    label: mostPopQueries,
+                                    label: '# of Searches Per Keyword',
                                     data: mostPopEntries,
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
@@ -206,7 +206,11 @@
                                         'rgba(255, 206, 86, 0.2)',
                                         'rgba(75, 192, 192, 0.2)',
                                         'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(12, 100, 100, 0.2)',
+                                        'rgba(200, 180, 53, 0.2)',
+                                        'rgba(241, 176, 99, 0.2)',
+                                        'rgba(112, 207, 180, 0.2)'
                                     ],
                                     borderColor: [
                                         'rgba(255, 99, 132, 1)',
@@ -214,9 +218,13 @@
                                         'rgba(255, 206, 86, 1)',
                                         'rgba(75, 192, 192, 1)',
                                         'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
+                                        'rgba(255, 159, 64, 1)',
+                                        'rgba(12, 100, 100, 1)',
+                                        'rgba(200, 180, 53, 1)',
+                                        'rgba(241, 176, 99, 1)',
+                                        'rgba(112, 207, 180, 1)'
                                     ],
-                                    borderWidth: 1,
+                                    borderWidth: 3,
                                 }]
                         }
 
@@ -229,7 +237,7 @@
                             options: {
                                 scales: {
                                     y: {
-                                        beginAtZero: true
+                                        beginAtZero: true,
                                     }
                                 }
                             }
@@ -245,7 +253,7 @@
                         const avgBarData = {
                             labels: avgPopQueries,
                                 datasets: [{
-                                    label: '# of Searches',
+                                    label: '# of Searches Per Keyword',
                                     data: avgPopEntries,
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
@@ -253,7 +261,11 @@
                                         'rgba(255, 206, 86, 0.2)',
                                         'rgba(75, 192, 192, 0.2)',
                                         'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(12, 100, 100, 0.2)',
+                                        'rgba(200, 180, 53, 0.2)',
+                                        'rgba(241, 176, 99, 0.2)',
+                                        'rgba(112, 207, 180, 0.2)'
                                     ],
                                     borderColor: [
                                         'rgba(255, 99, 132, 1)',
@@ -261,9 +273,13 @@
                                         'rgba(255, 206, 86, 1)',
                                         'rgba(75, 192, 192, 1)',
                                         'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
+                                        'rgba(255, 159, 64, 1)',
+                                        'rgba(12, 100, 100, 1)',
+                                        'rgba(200, 180, 53, 1)',
+                                        'rgba(241, 176, 99, 1)',
+                                        'rgba(112, 207, 180, 1)'
                                     ],
-                                    borderWidth: 1,
+                                    borderWidth: 3,
                                 }]
                         }
 
@@ -292,7 +308,7 @@
                         const leastPopData = {
                             labels: leastPopQueries,
                                 datasets: [{
-                                    label: '# of Searches',
+                                    label: '# of Searches Per Keyword',
                                     data: leastPopEntries,
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
@@ -300,7 +316,11 @@
                                         'rgba(255, 206, 86, 0.2)',
                                         'rgba(75, 192, 192, 0.2)',
                                         'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(12, 100, 100, 0.2)',
+                                        'rgba(200, 180, 53, 0.2)',
+                                        'rgba(241, 176, 99, 0.2)',
+                                        'rgba(112, 207, 180, 0.2)'
                                     ],
                                     borderColor: [
                                         'rgba(255, 99, 132, 1)',
@@ -308,9 +328,13 @@
                                         'rgba(255, 206, 86, 1)',
                                         'rgba(75, 192, 192, 1)',
                                         'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
+                                        'rgba(255, 159, 64, 1)',
+                                        'rgba(12, 100, 100, 1)',
+                                        'rgba(200, 180, 53, 1)',
+                                        'rgba(241, 176, 99, 1)',
+                                        'rgba(112, 207, 180, 1)'
                                     ],
-                                    borderWidth: 4,
+                                    borderWidth: 3,
                                 }]
                         }
 
@@ -351,7 +375,11 @@
                                         'rgba(255, 206, 86, 0.2)',
                                         'rgba(75, 192, 192, 0.2)',
                                         'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(12, 100, 100, 0.2)',
+                                        'rgba(200, 180, 53, 0.2)',
+                                        'rgba(241, 176, 99, 0.2)',
+                                        'rgba(112, 207, 180, 0.2)'
                                     ],
                                     borderColor: [
                                         'rgba(255, 99, 132, 1)',
@@ -359,9 +387,13 @@
                                         'rgba(255, 206, 86, 1)',
                                         'rgba(75, 192, 192, 1)',
                                         'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
+                                        'rgba(255, 159, 64, 1)',
+                                        'rgba(12, 100, 100, 1)',
+                                        'rgba(200, 180, 53, 1)',
+                                        'rgba(241, 176, 99, 1)',
+                                        'rgba(112, 207, 180, 1)'
                                     ],
-                                    borderWidth: 1
+                                    borderWidth: 3
                                 }]
                         }
 
@@ -380,47 +412,9 @@
                         )
 
 
-                        // Avg Popular Searches Doughnut Chart Setup Block
-                        const avgDataPie = {
-                            labels: avgPopQueries,
-                                datasets: [{
-                                    label: 'Search Data',
-                                    data: avgPopEntries,
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                        }
+                        
 
-                        // Avg Popular Searches doughnut Chart Config Block
-                        const avgConfigPie = {
-                            type: 'doughnut',
-                            data: avgDataPie,
-                            maintainAspectRation: false,
-                            options: {}
-                        }
-
-                        // Avg Popular Searches doughnut Chart Render Block
-                        const avgPieChart = new Chart (
-                            document.getElementById('avgPieChart'),
-                            avgConfigPie
-                        )
-
-                                                // Create 'no hits' table
+                        // Create 'no hits' table
 
                         // Change display property to render table upon data load
                         document.getElementById('chartContainer').style.display = display
