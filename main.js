@@ -1,25 +1,11 @@
-            const chartLabels = []
-            const chartData = []
-
-            const leastPopularChartLabels = []
-            const leastPopularChartData = []
-
-            const averageChartLabels = []
-            const averageChartData = []
-
-            const barData = []
-            const lineBarLabel = []
-            const lineData = []
-
             let display = 'none'
-            let altDisplay = 'none'
-
-
+            let lineDisplay = 'none'
 
             // Parse CSV - Convert to JSON Object
 
             const uploadconfirm = document.getElementById('uploadconfirm').addEventListener('click', () => {
                 display = 'flex'
+                lineDisplay='block'
                 Papa.parse(document.getElementById('uploadfile').files[0], 
                 {
                     download: true,
@@ -60,7 +46,7 @@
 
 
                         
-                        // DATA FOR BUBBLECHART
+                        // convert string numbers to int
 
                         const convertString = obj => {
                             const res = []
@@ -76,19 +62,22 @@
 
                         let result = convertString(hits)
 
+
+                        // Add result objects to array
+
                         let newResult = [...result]
+
+                        // Remove uneccesary information
 
                         newResult.forEach(i => {delete i.id; delete i.time; delete i.user_id; delete i.ip})
 
+                        // Create object that consolidates search queries, counts the duplicates, then adds search hits
                         class QueryHits {
-
                             constructor(query, hits) {
-
                             this.query = query
                             this.entries = 1
                             this.hits = hits
                             }
-
                         }
 
                         const holder = {}
@@ -103,84 +92,341 @@
                             }
                         }
 
+                        // Add holder objects to array
                         let finalSearchTally = Object.entries(holder).map(value => value[1])
 
-                        console.log(finalSearchTally)
+                        // Create 3 new filtered objects based on search query quantity from finalSearchTally object - Least popular obj, Average obj, Most popular obj
+                        const popHits = finalSearchTally.filter(popular => popular.entries > 25)
+                        const avgHits = finalSearchTally.filter(avg => avg.entries >= 10 && avg.entries <= 25)
+                        const leastHits = finalSearchTally.filter(least => least.entries < 10 && least.entries > 2)
+                        const oneOff = finalSearchTally.filter(least => least.entries <=2 )
 
-                        const popHits = finalSearchTally.filter(popular => popular.entries > 50)
+                        // Remove any invalid search terms (ex: thinkapp/index)
+                        const noThinkPop = popHits.filter(function(el){
+                            return !el.query.includes('index')
+                        })
+
+                        const noThinkAvg = avgHits.filter(function(el){
+                            return !el.query.includes('index')
+                        })
+                        const noThinkLeastPop = leastHits
+
+                        const noThinkOneOff = oneOff
+
+                        // Push data from objects into arrays to be displayed by charts
+                        const mostPopQueries = []
+                        const mostPopHits = []
+                        const mostPopEntries = []
+
+                        const avgPopQueries = []
+                        const avgPopHits = []
+                        const avgPopEntries = []
+
+                        const leastPopQueries = []
+                        const leastPopHits = []
+                        const leastPopEntries = []
+
+                        const rareQueries = []
+                        const rareHits = []
+                        const rareEntries = []
 
 
-                        const blue = popHits.filter(falseInfo => !falseInfo.query.includes('thinkapp'))
+                        for(let row of noThinkPop){
+                            mostPopEntries.push(row.entries)
+                            mostPopQueries.push(row.query)
+                            mostPopHits.push(row.hits)
+                        }
 
+                        for(let row of noThinkAvg){
+                            avgPopEntries.push(row.entries)
+                            avgPopQueries.push(row.query)
+                            avgPopHits.push(row.hits)
+                        }
 
+                        for(let row of noThinkLeastPop){
+                            leastPopEntries.push(row.entries)
+                            leastPopQueries.push(row.query)
+                            leastPopHits.push(row.hits)
+                        }
 
-                        for(let row of blue){
-                            barData.push(row.entries)
-                            lineBarLabel.push(row.query)
-                            lineData.push(row.hits)
+                        for(let row of noThinkOneOff){
+                            rareEntries.push(row.entries)
+                            rareQueries.push(row.query)
+                            rareHits.push(row.hits)
                         }
 
 
+                        // Charts
 
-                        // for(let i=0; i<finalSearchTally.length;i++){
-                        //     finalSearchTally[i].x = finalSearchTally[i]['query']
-                        //     delete finalSearchTally[i].query
-                        //     finalSearchTally[i].y = finalSearchTally[i]['entries']
-                        //     delete finalSearchTally[i].entries
-                        //     finalSearchTally[i].r = finalSearchTally[i]['hits']
-                        //     delete finalSearchTally[i].hits
-                        // }
-                        
+                        // Change display property to render div upon data load
+                        document.getElementById('chartContainer').style.display = display
+                        document.getElementById('avgChartContainer').style.display = display
+                        document.getElementById('break').style.display = lineDisplay
+                        document.getElementById('zeroHitsTable').style.display = display
+                        document.getElementById('leastPopChartContainer').style.display = display
 
 
-                        // Consolidate search queries, and count search quanity
-                        const mergeHits = {}
 
-                        for (let row of hits) {
-                            if(!mergeHits[row.query]){
-                                mergeHits[row.query] = 1
+                        // Create Chart Titles and Descriptions
+                        const chartLabel = document.createElement('H3')
+                        chartLabel.setAttribute('id', 'barChartLabel')
+                        const hr = document.getElementById('break')
+                        hr.after(chartLabel)
 
-                            } else {
-                                mergeHits[row.query] ++
+                        const avgChartLabel = document.createElement('H3')
+                        avgChartLabel.setAttribute('id', 'avgBarChartLabel')
+                        const chartDiv = document.getElementById('chartContainer')
+                        chartDiv.after(avgChartLabel)
+
+                        const scroll = document.getElementById('scrollTo')
+                        scroll.scrollIntoView()
+
+
+                        document.getElementById('barChartLabel').innerHTML = "Most Popular Search Queries"
+                        document.getElementById('barChartLabelSubHead').innerHTML = "View most popular search terms and number of times those keywords were entered. Any keyword searched greater than 25 times is considered popular."
+
+                        document.getElementById('avgBarChartLabel').innerHTML = "Average Popularity Search Queries"
+                        document.getElementById('avgBarChartLabelSubHead').innerHTML = "View average popularity search terms and number of times those keywords were entered. Any keyword searched between 15 and 25 times is considered average."
+
+                        document.getElementById('leastPopChartLabel').innerHTML = "Least Popular Search Queries"
+                        document.getElementById('leastPopBarChartLabelSubHead').innerHTML = "View least popular search terms and number of times those keywords were entered. Any keyword searched less than 15 times is considered least popular."
+
+
+                        // All bar chart setup
+
+                        // Most Popular Searches Bar Chart Setup Block
+                        const data = {
+                            labels: mostPopQueries,
+                                datasets: [{
+                                    label: mostPopQueries,
+                                    data: mostPopEntries,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1,
+                                }]
+                        }
+
+                        // Most Popular Searches Bar Chart Config Block
+                        const config = {
+                            type: 'bar',
+                            data,
+                            responsive: true,
+                            maintainAspectRation: false,
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
                             }
                         }
 
-                        // Add keys to values
-                        const newMerge = Object.entries(mergeHits).map(([key, value]) => ({key, value}))
-
-
-                        // Filter data sent to Chart.js
-                        let chartFilterPopular = newMerge.filter(single => single.value > 20)
-
-                        let chartFilterLeast = newMerge.filter(single => single.value < 10)
-
-                        let chartFilterAverage = newMerge.filter(single => single.value > 10 && single.value < 20)
-
-
-                        for(i=0; i<chartFilterPopular.length; i++){
-                            chartLabels.push(chartFilterPopular[i].key)
-                            chartData.push(chartFilterPopular[i].value)
+                        // Most Popular Searches Bar Chart Render Block
+                        const barChart = new Chart(
+                            document.getElementById('barChart'),
+                            config
+                        )
+                        
+                        // Avg Popular Searches Bar Chart Setup Block
+                        const avgBarData = {
+                            labels: avgPopQueries,
+                                datasets: [{
+                                    label: '# of Searches',
+                                    data: avgPopEntries,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1,
+                                }]
                         }
 
-                        for(i=0; i<chartFilterLeast.length; i++){
-                            leastPopularChartLabels.push(chartFilterLeast[i].key)
-                            leastPopularChartData.push(chartFilterLeast[i].value)
+                        // Avg Popular Searches Bar Chart Config Block
+                        const avgBarConfig = {
+                            type: 'bar',
+                            data: avgBarData,
+                            responsive: true,
+                            maintainAspectRation: false,
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
                         }
 
-                        for(i=0; i<chartFilterAverage.length; i++){
-                            averageChartLabels.push(chartFilterLeast[i].key)
-                            averageChartData.push(chartFilterLeast[i].value)
+                        // Avg Popular Searches Bar Chart Render Block
+                        const avgBarChart = new Chart(
+                            document.getElementById('avgBarChart'),
+                            avgBarConfig
+                        )
+
+                         // Least Popular Searches Bar Chart Setup Block
+                        const leastPopData = {
+                            labels: leastPopQueries,
+                                datasets: [{
+                                    label: '# of Searches',
+                                    data: leastPopEntries,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 4,
+                                }]
                         }
 
+                        // Least Popular Searches Bar Chart Config Block
+                        const leastPopConfig = {
+                            type: 'bar',
+                            data:leastPopData,
+                            responsive: true,
+                            maintainAspectRation: false,
+                            options: {
+                                indexAxis: 'y',
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        }
 
-                        // Create 'no hits' table
+                        // Least Popular Searches Bar Chart Render Block
+                        const leastPopBarChart = new Chart(
+                            document.getElementById('leastPopBarChart'),
+                            leastPopConfig
+                        )
+                        
+
+                        // All doughnut chart setup
+
+                        // Most Popular Searches Doughnut Chart Setup Block
+                        const dataPie = {
+                            labels: mostPopQueries,
+                                datasets: [{
+                                    label: 'Search Data',
+                                    data: mostPopEntries,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                        }
+
+                        // Most Popular Searches Doughnut Chart Config Block
+                        const configPie = {
+                            type: 'doughnut',
+                            data: dataPie,
+                            maintainAspectRation: false,
+                            options: {}
+                        }
+
+                        // Most Popular Searches Doughnut Chart Render Block
+                        const pieChart = new Chart (
+                            document.getElementById('pieChart'),
+                            configPie
+                        )
+
+
+                        // Avg Popular Searches Doughnut Chart Setup Block
+                        const avgDataPie = {
+                            labels: avgPopQueries,
+                                datasets: [{
+                                    label: 'Search Data',
+                                    data: avgPopEntries,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                        }
+
+                        // Avg Popular Searches doughnut Chart Config Block
+                        const avgConfigPie = {
+                            type: 'doughnut',
+                            data: avgDataPie,
+                            maintainAspectRation: false,
+                            options: {}
+                        }
+
+                        // Avg Popular Searches doughnut Chart Render Block
+                        const avgPieChart = new Chart (
+                            document.getElementById('avgPieChart'),
+                            avgConfigPie
+                        )
+
+                                                // Create 'no hits' table
 
                         // Change display property to render table upon data load
                         document.getElementById('chartContainer').style.display = display
 
                         // Table Label
                         document.getElementById('noHitsTableLabel').innerHTML = "Searches Resulting in 0 Hits"
-
 
                         let tbl = document.createElement('table')
                         document.getElementById('zeroHitsTable').appendChild(tbl)
@@ -211,164 +457,7 @@
                             }
                         }
                         generateTable(table, finalZeroHitsObj)
-                        
 
-                        // Charts
-
-                        // Change display property to render div upon data load
-                        document.getElementById('chartContainer').style.display = display
-                        document.getElementById('break').style.display = display
-                        document.getElementById('zeroHitsTable').style.display = display
-                        document.getElementById('nextChartContainer').style.display = display
-                        // document.getElementById('uploadForm').style.display = altDisplay
-
-
-
-                        // Chart Header Labels
-                        const chartLabel = document.createElement('H3')
-                        chartLabel.setAttribute('id', 'barChartLabel')
-                        const hr = document.getElementById('break')
-                        hr.after(chartLabel)
-
-                        const scroll = document.getElementById('scrollTo')
-                        scroll.scrollIntoView()
-
-                        // const chartContainer = document.createElement('div')
-                        // chartContainer.setAttribute('class', 'chart-container')
-                        // const h4 = document.getElementById(barChartLabelSubHead)
-                        // h4.after(chartContainer)
-
-
-                        document.getElementById('barChartLabel').innerHTML = "Search Queries"
-                        document.getElementById('barChartLabelSubHead').innerHTML = "View search terms and number of times those keywords were entered. Use drop down menu to sort search terms by popularity."
-                        document.getElementById('dateLabel').innerHTML = "Search Queries and Search Hits"
-
-
-                        // Bar Chart Setup Block
-                        const data = {
-                            labels: chartLabels,
-                                datasets: [{
-                                    label: '# of Searches',
-                                    data: chartData,
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1,
-                                }]
-                        }
-
-                        // Bar Chart Config Block
-                        const config = {
-                            type: 'bar',
-                            data,
-                            responsive: true,
-                            maintainAspectRation: false,
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        }
-
-                        // Bar Chart Render Block
-                        const barChart = new Chart(
-                            document.getElementById('barChart'),
-                            config
-                        )
-
-                        // const avgButton = document.getElementById('avg')
-                        // avgButton.addEventListener('click', () => {
-                        //     barChart.data.datasets[0].data = averageChartData
-                        //     barChart.data.labels = averageChartLabels
-                        // })
-
-
-                        // Pie Chart Setup Block
-                        const dataPie = {
-                            labels: chartLabels,
-                                datasets: [{
-                                    label: 'Search Data',
-                                    data: chartData,
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                        }
-
-                        // Pie Chart Config Block
-                        const configPie = {
-                            type: 'doughnut',
-                            data: dataPie,
-                            maintainAspectRation: false,
-                            options: {}
-                        }
-
-                        // Pie Chart Render Block
-                        const pieChart = new Chart (
-                            document.getElementById('pieChart'),
-                            configPie
-                        )
-
-                        console.log(barData)
-
-                        const hitsData = {
-                            labels: lineBarLabel,
-                            datasets: [{
-                            type: 'bar',
-                            label: 'Bar Dataset',
-                            data: lineData,
-                            borderColor: 'rgb(255, 99, 132)',
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)'
-                            }]
-                        };
-
-                        const mixedConfig = {
-                            type: 'scatter',
-                            data: hitsData,
-                            options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                            }
-                        };
-
-                        // Bar Chart Render Block
-                        const mixedChart = new Chart(
-                            document.getElementById('barDateChart'),
-                            mixedConfig
-                        )
-                        
                     }
                 })
             })

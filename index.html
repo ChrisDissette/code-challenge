@@ -26,9 +26,9 @@
         <div class="container">
             <header class='header'>
                 <h1>Lettuce Entertain You Search Data Overview</h1>
-                <h4 class='sub-header'>Select a file and then upload to view data.</h4>
+                <h2 class='sub-header'>Select a file and then upload to view data.</h2>
                 <div class="upload-form" id='uploadForm'>
-                    <input type="file" id='uploadfile' accept='.csv'>
+                    <input name='fileupload' type="file" id='uploadfile' accept='.csv' aria-label='uploadfile'>
                     <button id='uploadconfirm'>Upload File</button>
                 </div>
             </header>
@@ -37,9 +37,10 @@
 
             <h3 id='barChartLabel'></h3>
             <h4 id='barChartLabelSubHead'></h4>
-            
+
+
+            <!-- Most popular search chart container -->
             <div class="chart-container" id='chartContainer'>
-                <!-- <button id='avg'>Change to Average</button> -->
                 <div class='bar-chart-container'>
                     <canvas id="barChart" width="400" height="400"></canvas>
                 </div>
@@ -49,19 +50,45 @@
                 </div>
             </div>
 
-            <div class="next-chart-container" id='nextChartContainer'>
-                <h4 id="dateLabel"></h4>
-                <div class='barchart-date-container'>
-                    <canvas id="barDateChart"></canvas>
+
+            <!-- Average popularity search chart container -->
+
+            <h3 id='avgBarChartLabel'></h3>
+            <h4 id='avgBarChartLabelSubHead'></h4>
+
+            <div class="avg-chart-container" id='avgChartContainer'>
+                <div class='avg-bar-chart-container'>
+                    <canvas id="avgBarChart" width="400" height="400"></canvas>
+                </div>
+
+                <div class='avg-doughnut-chart-container' id='avgDoughnutChartContainer'>
+                    <canvas id="avgPieChart"></canvas>
+                </div>
+
+            </div>
+
+            <!-- Least Popular Searches horizontal chart -->
+
+            <h3 id='leastPopChartLabel'></h3>
+            <h4 id='leastPopBarChartLabelSubHead'></h4>
+
+            <div class="least-pop-chart-container" id='leastPopChartContainer'>
+                <div class='least-pop-bar-chart-container'>
+                    <canvas id="leastPopBarChart" width="1000" height="1400"></canvas>
                 </div>
             </div>
 
 
+            <!-- <div class="next-chart-container" id='nextChartContainer'>
+                <h4 id="dateLabel"></h4>
+                <div class='barchart-date-container'>
+                    <canvas id="barDateChart"></canvas>
+                </div>
+            </div> -->
 
             <hr id='break'>
 
             <h3 id='noHitsTableLabel'></h3>
-
             <div id="zeroHitsTable" class="no-hits-table">
             </div>
 
