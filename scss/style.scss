@@ -8,7 +8,6 @@ $secondary-font: 'Spline Sans', sans-serif;
 * {
 	vertical-align: baseline;
 	font-size: 100%;
-	outline: 0;
 	padding: 0;
 	margin: 0;
 	}
@@ -22,8 +21,8 @@ html {
     width: 100%;
     padding: 2rem 0rem 2rem 0rem;
     margin-top: 3rem;
-    @media (max-width: $breakpoint) {
-        padding: 0rem 0.5rem 2rem 0.5rem;
+    .label-container {
+        padding: 0rem 2rem 0rem 2rem;
     }
     h1 {
         text-align: center;
@@ -57,6 +56,9 @@ html {
         cursor: pointer;
     }
     #break {
+        display: none;
+    }
+    #break2 {
         display: none;
     }
     .line-style{

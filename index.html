@@ -27,72 +27,85 @@
             <header class='header'>
                 <h1>Website Search Data</h1>
                 <h2 class='sub-header'>Select a file and then upload to view data.</h2>
+
+                <!-- File upload form -->
                 <div class="upload-form" id='uploadForm'>
-                    <input name='fileupload' type="file" id='uploadfile' accept='.csv' aria-label='uploadfile'>
+                    <input name='fileupload' type="file" id='uploadfile' accept='.csv' aria-label='upload file here'>
                     <button id='uploadconfirm'>Upload File</button>
                 </div>
             </header>
 
+
+            <!-- Automatic scroll on form submit anchor point -->
             <hr class='line-style' id='scrollTo'>
 
-            <h3 id='barChartLabel'></h3>
-            <h4 id='barChartLabelSubHead'></h4>
-
-
-            <!-- Most popular search chart container -->
-            <div class="chart-container" id='chartContainer' tabindex=0>
-                <div class='bar-chart-container'>
-                    <canvas id="barChart" width="400" height="400"></canvas>
-                </div>
-
-                <div class='doughnut-chart-container' id='doughnutChartContainer'>
-                    <canvas id="pieChart"></canvas>
-                </div>
-            </div>
-
-
-            <!-- Average popularity search chart container -->
-
+            <!-- Chart Section -->
             <main>
-                <h3 id='avgBarChartLabel' aria-hidden="false" tabindex=0></h3>
-                <h4 id='avgBarChartLabelSubHead' aria-hidden="false"></h4>
+                <div class='label-container'>
+                    <h3 id='barChartLabel'></h3>
+                    <h4 id='barChartLabelSubHead'></h4>
+                </div>
 
-                <div class="avg-chart-container" id='avgChartContainer' tabindex=0>
-                    <div class='avg-bar-chart-container' aria-hidden="false">
-                        <canvas id="avgBarChart" width="400" height="300" alt='Bar chart of average popularity search queries.'></canvas>
+                <!-- Container for most popular keyword search charts (doughnut and bar chart) -->
+                <div class="chart-container" id='chartContainer' tabindex=0>
+                    <div class='bar-chart-container'>
+                        <canvas id="barChart" width="400" height="400"></canvas>
                     </div>
 
+                    <div class='doughnut-chart-container' id='doughnutChartContainer'>
+                        <canvas id="pieChart"></canvas>
+                    </div>
                 </div>
 
-                <!-- Least Popular Searches horizontal chart -->
 
-                <div class="least-pop-parent">
+                <!-- Container for average keyword popularity search chart -->
+                <div class="label-container">
+                    <h3 id='avgBarChartLabel' aria-hidden="false" tabindex=0></h3>
+                    <h4 id='avgBarChartLabelSubHead' aria-hidden="false"></h4>
+                </div>
+                    <div class="avg-chart-container" id='avgChartContainer' tabindex=0>
+                        <div class='avg-bar-chart-container' aria-hidden="false">
+                            <canvas id="avgBarChart" width="400" height="300" alt='Bar chart of average popularity search queries.'></canvas>
+                        </div>
 
-                    <h3 id='leastPopChartLabel' tabindex=0></h3>
-                    <h4 id='leastPopBarChartLabelSubHead' class='least-pop-bar-chart'></h4>
+                    </div>
 
-                    <div class="least-pop-chart-container" id='leastPopChartContainer' tabindex=0>
-                        <div class='least-pop-bar-chart-container'>
-                            <canvas id="leastPopBarChart" width="400" height="300"></canvas>
+
+                    <!-- Least-pop-parent div switches to "display: none" on media below 600px -->
+                    <div class="least-pop-parent">
+                        <!-- Container for lowest keyword popularity search chart -->
+                        <div class="label-container">
+                            <h3 id='leastPopChartLabel' tabindex=0></h3>
+                            <h4 id='leastPopBarChartLabelSubHead' class='least-pop-bar-chart'></h4>
+                        </div>
+
+                        <div class="least-pop-chart-container" id='leastPopChartContainer' tabindex=0>
+                            <div class='least-pop-bar-chart-container'>
+                                <canvas id="leastPopBarChart" width="400" height="300"></canvas>
+                            </div>
                         </div>
                     </div>
-            </div>
+                
+
+                <hr id='break'>
+                
+                <!-- Container for table consisting of keyword searches that resulted in 0 hits -->
+                <div class="label-container">
+                    <h3 id='noHitsTableLabel' tabindex=0 ></h3>
+                </div>
+                    <div id="zeroHitsTable" class="no-hits-table" aria-hidden="true" >
+                </div>
             </main>
 
-            <hr id='break'>
+            <hr id='break2'>
 
-            <h3 id='noHitsTableLabel' tabindex=0 ></h3>
-            <div id="zeroHitsTable" class="no-hits-table" aria-hidden="true" >
-            </div>
-
-            <hr id='break'>
-
-            <div class="contact-container">
+            <!-- Contact form -->
+            <div class="contact-container" role='form'>
                 <form id='contactID'>
                     <address class='contactForm'>
                         <h4>Special Request Form</h4>
-                        <input type="text" id="toName" placeholder="Enter Name">
-                        <textarea id='request' placeholder='Enter Request'></textarea>
+                        <input type="text" id="toName" placeholder="Enter Name" aria-label='enter name here'>
+                        <textarea id='request' placeholder='Enter Request' aria-label='enter request here'></textarea>
                         <button onclick='sendMail()'>Send Email</button>
                     </address>
                 </form>

@@ -2,7 +2,6 @@
             let lineDisplay = 'none'
 
             // Parse CSV - Convert to JSON Object
-
             const uploadconfirm = document.getElementById('uploadconfirm').addEventListener('click', () => {
                 display = 'flex'
                 lineDisplay='block'
@@ -162,21 +161,10 @@
                         document.getElementById('chartContainer').style.display = display
                         document.getElementById('avgChartContainer').style.display = display
                         document.getElementById('break').style.display = lineDisplay
+                        document.getElementById('break2').style.display = lineDisplay
                         document.getElementById('zeroHitsTable').style.display = display
                         document.getElementById('leastPopChartContainer').style.display = display
 
-
-
-                        // Create Chart Titles and Descriptions
-                        const chartLabel = document.createElement('H3')
-                        chartLabel.setAttribute('id', 'barChartLabel')
-                        const hr = document.getElementById('break')
-                        hr.after(chartLabel)
-
-                        const avgChartLabel = document.createElement('H3')
-                        avgChartLabel.setAttribute('id', 'avgBarChartLabel')
-                        const chartDiv = document.getElementById('chartContainer')
-                        chartDiv.after(avgChartLabel)
 
                         const scroll = document.getElementById('scrollTo')
                         scroll.scrollIntoView()
@@ -411,8 +399,6 @@
                         )
 
 
-                        
-
                         // Create 'no hits' table
 
                         // Change display property to render table upon data load
@@ -450,7 +436,6 @@
                             }
                         }
                         generateTable(table, finalZeroHitsObj)
-
                     }
                 })
             })
